@@ -1,0 +1,41 @@
+- provide(:title, @title)
+
+.user-profile
+  .user-profile__image
+    = image_tag user_image_path(@user)
+
+  .user-profile__detail
+    p.user-profile__name= @user.name
+    p= span= link_to "プロフィール", @user
+    p.user-profile__comment コメント投稿数 #{@user.microposts.count}
+    - @user ||= current_user
+    .stats
+      a href="#{following_user_path(@user)}"
+        strong#following.stat
+          = @user.following.count
+        | フォロー
+      a href="#{followers_user_path(@user)}"
+        strong#followers.stat
+          = @user.followers.count
+        | フォロワー
+
+    = render 'follow_form' if logged_in?
+
+- if @users.any?
+  .user_avatars.mb50
+    - @users.each do |user|
+      a href="#{user_path(user.id)}"
+        = image_tag user_image_path(user)
+
+- if @users.any?
+  h3= @title
+  = will_paginate @users, { :previous_label => '前へ', :next_label => '次へ' }
+  ul.users-lists
+    - @users.each do |user|
+      li.users-lists__list
+        a href= user_path(user)
+          .users-lists__img
+            = image_tag user_image_path(user)
+          .users-lists__name
+            = user.name
+  = will_paginate @users, { :previous_label => '前へ', :next_label => '次へ' }

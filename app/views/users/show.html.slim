@@ -1,0 +1,34 @@
+.user-profile.mb50
+  .user-profile__image
+    = image_tag user_image_path(@user)
+
+  .user-profile__detail
+    p.user-profile__detail__name= @user.name
+    p.user-profile__detail__comment コメント投稿数 #{@microposts.count}
+    - @user ||= current_user
+    .stats
+      a href="#{following_user_path(@user)}"
+        strong#following.stat
+          = @user.following.count
+        | フォロー
+      a href="#{followers_user_path(@user)}"
+        strong#followers.stat
+          = @user.followers.count
+        | フォロワー
+
+    = render 'follow_form' if logged_in?
+
+h2 コメントした記事
+- array = []
+- @microposts.each do |micropost|
+  - array.push(micropost.entry_id)
+
+- array.uniq.each do |array|
+  - entry = Entry.find_by(id: array)
+  p= link_to entry.title, feed_entry_path(entry.feed_id, entry)
+  ul
+    - entry.microposts.limit(2).each do |micropost|
+      li
+        p= link_to User.find_by(id: micropost.user_id).name, User.find_by(id: micropost.user_id)
+        p= micropost.content
+        p= time_zone_jst(micropost.created_at)

@@ -1,0 +1,27 @@
+- provide(:title, @entry.title)
+- provide(:class, 'entries')
+
+.entrie
+  - if @entry.image
+    .entrie__img
+      = image_tag @entry.image
+  .entrie__detail class="#{'entrie__detail--full' if !@entry.image}"
+    h1.entrie__ttl= link_to @entry.title, @entry.url, {:target => "_blank"}
+    p.entrie__date= time_zone_jst(@entry.published)
+    p.entrie__txt= strip_tags(@entry.content).gsub(/(\s)/,"").truncate(300)
+    / p= @entry.content.html_safe
+
+#microposts
+  = render 'microposts'
+
+- if logged_in?
+  .row
+    aside.col-md-4
+      section.micropost_form
+        = form_for(@micropost, remote: true) do |f|
+          #error
+            = render 'error'
+          = f.hidden_field :entry_id, value: @entry.id
+          .field
+            = f.text_area :content, placeholder: "新しいコメント"
+          = f.submit "投稿する", class: "btn btn-primary"

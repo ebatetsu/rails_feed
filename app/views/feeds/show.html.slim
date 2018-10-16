@@ -1,0 +1,16 @@
+- provide(:title, 'show')
+h1
+  = @feed.name
+  = @feed.description
+
+= will_paginate @entries, { :previous_label => '前へ', :next_label => '次へ' }
+
+.container
+  - @entries.each do |entry|
+    .panel.panel-default
+      .panel-body
+        = link_to entry.title, feed_entry_path(entry.feed_id, entry.id)
+        = "　"
+        = time_zone_jst(entry.published, true)
+
+= will_paginate @entries, { :previous_label => '前へ', :next_label => '次へ' }

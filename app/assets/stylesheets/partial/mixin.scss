@@ -1,0 +1,33 @@
+// @function per($decimal){
+//   @return ($decimal * 100) + %
+// }
+
+@mixin pc() {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin sp(){
+  @media (max-width: 639px) {
+    @content;
+  }
+}
+
+@mixin cf{
+  &:after{
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+    content: "";
+  }
+}
+
+@mixin rollover{
+  &:hover{
+    @include pc(){
+      opacity: 0.7;
+    }
+  }
+}

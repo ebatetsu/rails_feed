@@ -1,0 +1,28 @@
+body
+  header.navbar.navbar-fixed-top.navbar-inverse
+    .container
+      = link_to "Rails Feed", root_path, id: "logo"
+      nav
+        ul.nav.navbar-nav.navbar-right
+          - if logged_in? && current_user.admin?
+            li
+              = link_to '更新', feeds_update_path, method: :feeds_update, data: { confirm: 'フィードを更新しますがよろしいですか？' }
+          li.header-search
+            = search_form_for @search, url: search_path do |f|
+              = f.search_field :title_cont, class: "header-search__text"
+              = f.submit "検索", class: "header-search__btn"
+          li= link_to "ホーム", root_path
+          - if logged_in?
+            li= link_to "ユーザー一覧", users_path
+            li.dropdown
+              a.dropdown-toggle data-toggle="dropdown" href="javascript:void(0);"
+                | アカウント
+                b.caret
+              ul.dropdown-menu
+                li= link_to "プロフィール", current_user
+                li= link_to "設定", edit_user_path(current_user)
+                li.divider
+                li
+                  = link_to "ログアウト", logout_path, method: :delete
+          - else
+            li= link_to "ログイン", login_path

@@ -1,0 +1,6 @@
+ol
+  - @microposts.each do |microposts|
+    li
+      p= link_to User.find(microposts.user_id).name, User.find(microposts.user_id)
+      p= simple_format(h(microposts.content))
+      p= time_zone_jst(microposts.created_at)

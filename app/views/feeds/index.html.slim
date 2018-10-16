@@ -1,0 +1,74 @@
+- provide(:title, 'フィード一覧')
+- provide(:class, 'top')
+/ h2 最新の記事
+
+.entries-main
+  .entries-slider
+    ul.entries-slider__inner.js-slider.js-slider01
+      - @entries.sample(5).each do |entry|
+        li.entries-slider__col
+          a href="#{feed_entry_path(entry.feed_id, entry)}"
+            - if entry.image
+              .entries-slider__image
+                = image_tag entry.image
+            p.entries-slider__ttl
+              = entry.title
+            p.entries-slider__date
+              = time_zone_jst(entry.published)
+
+  .entries-comments
+    p.entries-comments__ttl 最新のコメント
+    ul.entries-comments__inner
+      - @microposts.each do |micropost|
+        - user = User.find(micropost.user_id)
+        - entry = Entry.find(micropost.entry_id)
+        li.entries-comments__list
+          p.entries-comments__entry
+            a href="#{feed_entry_path(entry.feed_id, entry)}"
+              = entry.title
+          a.entries-comments__user href="#{user_path(user)}"
+            .entries-comments__user-image
+              = image_tag user_image_path(user)
+            p.entries-comments__user-name= user.name
+          p.entries-comments__comment= micropost.content
+          p.entries-comments__date= time_zone_jst(micropost.created_at)
+
+.entries-list
+  - @entries.each do |entry|
+    .entries-list__col
+      a href=feed_entry_path(entry.feed_id, entry)
+        - if entry.image
+          .entries-list__img
+            = image_tag entry.image
+        p.entries-list__ttl
+          = entry.title
+        p.entries-list__date
+          = time_zone_jst(entry.published)
+        / p.entries-list__content
+          = strip_tags(entry.content).gsub(/(\s)/,"").truncate(80)
+
+      - array = []
+      - entry.microposts.each do |micropost|
+        - array.push(micropost.user_id)
+      - if array.present?
+        ul.entries-list__users
+          - array.uniq.take(5).each do |array|
+            - user = User.find(array)
+            li
+              a href="#{user_path(user)}"
+                = image_tag user_image_path(user)
+        p.entries-list__count #{entry.microposts.count}コメント
+
+h2.st-ttl02 フィード一覧
+.feeds-list
+  - @feeds.each do |feed|
+    .feeds-list__col
+      p
+        = link_to feed.name, feed
+        / - if logged_in? && current_user.admin?
+          = " "
+          = link_to 'edit', edit_feed_path(feed)
+          = " "
+          = link_to 'delete', feed, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' }
+/ - if logged_in? && current_user.admin?
+  p= link_to 'New Feed', new_feed_path

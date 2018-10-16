@@ -1,0 +1,18 @@
+doctype html
+html lang="ja"
+  head
+    meta charset="UTF-8"
+    meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"
+    title= full_title(yield(:title))
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all'
+    = render 'layouts/shim'
+  body(class=yield(:class))
+    = render 'layouts/header'
+    .container
+      - flash.each do |message_type, message|
+        div class=("alert alert-#{message_type}") = message
+      = yield
+      = render 'layouts/footer'
+      = debug(params) if Rails.env.development?
+    = javascript_include_tag 'application'

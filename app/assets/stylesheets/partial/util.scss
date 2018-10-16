@@ -1,0 +1,11 @@
+@for $i from 0 through 10 {
+  $v: $i * 5;
+  .mt#{$v} { margin-top: #{$v}px !important; }
+  .mr#{$v} { margin-right: #{$v}px !important; }
+  .mb#{$v} { margin-bottom: #{$v}px !important; }
+  .ml#{$v} { margin-left: #{$v}px !important; }
+  .pt#{$v} { padding-top: #{$v}px !important; }
+  .pr#{$v} { padding-right: #{$v}px !important; }
+  .pb#{$v} { padding-bottom: #{$v}px !important; }
+  .pl#{$v} { padding-left: #{$v}px !important; }
+}

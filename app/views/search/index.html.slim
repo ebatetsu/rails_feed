@@ -1,0 +1,22 @@
+/ = search_form_for @search, url: search_path do |f|
+/   = f.search_field :title_cont
+/   = f.submit
+
+- if params[:q][:title_cont].present?
+  p "#{params[:q][:title_cont]}"での検索結果 #{@result.count}件
+- else
+  p 検索結果 #{@result.count}件
+
+
+= will_paginate @result, { :previous_label => '前へ', :next_label => '次へ' }
+
+.container
+  sort_link(@search, :title)
+  - @result.each do |result|
+    .panel.panel-default
+      .panel-body
+        = link_to result.title, feed_entry_path(result.feed_id, result.id)
+        = "　"
+        = time_zone_jst(result.published, true)
+
+= will_paginate @result, { :previous_label => '前へ', :next_label => '次へ' }
