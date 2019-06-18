@@ -10,10 +10,10 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
-.keep
-
 /node_modules
 /yarn-error.log
 /db/seeds.rb
-
+/vendor
+.keep
 .byebug_history
+.vscode
