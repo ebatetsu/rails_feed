@@ -6,7 +6,7 @@ task :feeds => :environment do
       local_entry = feed.entries.where(title: entry.title).first_or_initialize
       local_entry_image = MetaInspector.new(entry.url).images.best
       local_entry.update_attributes(
-        content: entry.content,
+        content: entry.content || entry.summary,
         author: entry.author,
         url: entry.url,
         image: local_entry_image,
