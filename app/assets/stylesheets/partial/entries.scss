@@ -1,37 +1,68 @@
-// Place all the styles related to the entries controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-@import "mixin";
-
-.entrie{
-  display: -webkit-flex;
-  display: flex;
-  width: 100%;
-  &__img{
-    position: relative;
-    width: 40%;
+.entrie {
+  &__img {
+    height: 400px;
     overflow: hidden;
-    & > img{
+    position: relative;
+    @include pc() {
+      margin-bottom: 20px;
+    }
+    @include sp() {
+      margin-bottom: vw(20);
+    }
+    & > img {
+      width: 100%;
+      height: auto;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translateX(-50%) translateY(-50%);
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
     }
   }
-  &__detail{
-    width: 60%;
+  &__link {
+    display: block;
   }
-  &__ttl{
-    //
+  &__ttl {
+    text-align: left;
+    @include pc() {
+      font-size: 28px;
+      margin-top: 40px;
+    }
+    @include sp() {
+      font-size: vw(28);
+      margin-top: vw(40);
+    }
   }
-  &__date{
-    //
+  &__date {
+    text-align: right;
   }
-  &__txt{
-    //
+  &__micropost {
+    @include pc() {
+      margin-bottom: 40px;
+    }
+    @include sp() {
+      margin-bottom: vw(40);
+    }
+  }
+  &__microposts {
+    padding-left: 0;
+    list-style-type: none;
+    & > li {
+      @include pc() {
+        margin-bottom: 30px;
+      }
+      @include sp() {
+        margin-bottom: vw(30);
+      }
+    }
+    &-date {
+      @include pc() {
+        font-size: 12px;
+        line-height: (14/12);
+      }
+      @include sp() {
+        font-size: vw(12);
+        line-height: (14/12);
+      }
+    }
   }
 }

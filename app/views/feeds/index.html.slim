@@ -1,6 +1,5 @@
 - provide(:title, 'フィード一覧')
 - provide(:class, 'top')
-/ h2 最新の記事
 
 .entries-main
   .entries-slider
@@ -44,8 +43,6 @@
           = entry.title
         p.entries-list__date
           = time_zone_jst(entry.published)
-        / p.entries-list__content
-          = strip_tags(entry.content).gsub(/(\s)/,"").truncate(80)
 
       - array = []
       - entry.microposts.each do |micropost|
@@ -58,17 +55,3 @@
               a href="#{user_path(user)}"
                 = image_tag user_image_path(user)
         p.entries-list__count #{entry.microposts.count}コメント
-
-h2.st-ttl02 フィード一覧
-.feeds-list
-  - @feeds.each do |feed|
-    .feeds-list__col
-      p
-        = link_to feed.name, feed
-        / - if logged_in? && current_user.admin?
-          = " "
-          = link_to 'edit', edit_feed_path(feed)
-          = " "
-          = link_to 'delete', feed, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' }
-/ - if logged_in? && current_user.admin?
-  p= link_to 'New Feed', new_feed_path

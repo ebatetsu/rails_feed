@@ -1,6 +1,10 @@
-ol
-  - @microposts.each do |microposts|
+ul.entrie__microposts
+  - @microposts.each_with_index.reverse_each do |microposts, index|
     li
-      p= link_to User.find(microposts.user_id).name, User.find(microposts.user_id)
+      p
+        = "#"
+        = index + 1
+        = ". "
+        = link_to User.find(microposts.user_id).name, User.find(microposts.user_id)
       p= simple_format(h(microposts.content))
-      p= time_zone_jst(microposts.created_at)
+      p.entrie__microposts-date= time_zone_jst(microposts.created_at)
